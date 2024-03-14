@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Stock_API_Application.Model;
 using Stock_API_Application.Repository;
 
@@ -17,25 +18,35 @@ namespace Stock_API_Application.Controllers
         }
 
         [HttpGet("get-all")]
-        public IActionResult getAllStocks() {
-            List<Stock> list = this._stockRepository.getAll();
+        public IActionResult GetAllStocks() {
+            List<Stock> list = this._stockRepository.GetAll();
             return Ok(list);
         }
 
         [HttpGet("id/{stockId}")]
-        public IActionResult findById(long stockId)
+        public IActionResult FindById(long stockId)
         {
-            Stock stock = this._stockRepository.findById(stockId);
+            Stock stock = this._stockRepository.FindById(stockId);
             if(stock!=null)
                 return Ok(stock);
             else
                 return BadRequest();
         }
 
-        [HttpGet("pattern/{pattern}")]
-        public IActionResult findByInitialPattern(String pattern)
+        [HttpGet("name/{stockName}")]
+        public IActionResult FindByName(string stockName)
         {
-            List<Stock> list = this._stockRepository.findByInitialPattern(pattern);
+            Stock stock = this._stockRepository.FindByName(stockName);
+            if(stock!=null)
+                return Ok(stock);
+            else 
+                return BadRequest();
+        }
+
+        [HttpGet("pattern/{pattern}")]
+        public IActionResult FindByInitialPattern(String pattern)
+        {
+            List<Stock> list = this._stockRepository.FindByInitialPattern(pattern);
             if (list == null || list.Count() == 0)
                 return NotFound();
             else 

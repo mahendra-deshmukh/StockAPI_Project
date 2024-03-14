@@ -4,8 +4,9 @@ namespace Stock_API_Application.Repository
 {
     public interface IStockRespository
     {
-        List<Stock> getAll();
-        Stock findById(long stockId);
-        List<Stock> findByInitialPattern(String pattern);
+        List<Stock> GetAll();
+        Stock FindById(long stockId);
+        List<Stock> FindByInitialPattern(String pattern);
+        Stock FindByName(String name);
     }
 }
