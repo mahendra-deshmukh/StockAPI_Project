@@ -5,5 +5,6 @@ namespace Stock_API_Application.Repository
     public interface IStockRespository
     {
         List<Stock> getAll();
+        Stock findById(long stockId);
     }
 }

@@ -10,6 +10,17 @@ namespace Stock_API_Application.Repository
         public StockRepository(DapperDbContext dbContext) { 
             this._dbContext = dbContext;
         }
+
+        public Stock findById(long stockId)
+        {
+            String query = "select * from stock where stock_id = @Id";
+            using(var connection = _dbContext.GetConnection())
+            {
+                var stock = connection.QueryFirstOrDefault<Stock>(query,new { Id = stockId});
+                return stock;
+            }
+        }
+
         public List<Stock> getAll()
         {
             String query = "select * from stock";
