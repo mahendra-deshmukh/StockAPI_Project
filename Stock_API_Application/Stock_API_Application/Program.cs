@@ -1,4 +1,7 @@
 
+using Stock_API_Application.DbUtils;
+using Stock_API_Application.Repository;
+
 namespace Stock_API_Application
 {
     public class Program
@@ -10,6 +13,8 @@ namespace Stock_API_Application
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddTransient<DapperDbContext>();
+            builder.Services.AddTransient<IStockRespository, StockRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
