@@ -6,5 +6,6 @@ namespace Stock_API_Application.Repository
     {
         List<Stock> getAll();
         Stock findById(long stockId);
+        List<Stock> findByInitialPattern(String pattern);
     }
 }

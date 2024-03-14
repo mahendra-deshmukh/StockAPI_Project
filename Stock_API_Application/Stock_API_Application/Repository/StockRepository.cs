@@ -21,6 +21,15 @@ namespace Stock_API_Application.Repository
             }
         }
 
+        public List<Stock> findByInitialPattern(String pattern)
+        {
+            String query = "select * from stock where name like @Pattern";
+            using(var connection = _dbContext.GetConnection())
+            {
+                return connection.Query<Stock>(query, new {Pattern = pattern+"%"}).ToList();
+            }
+        }
+
         public List<Stock> getAll()
         {
             String query = "select * from stock";

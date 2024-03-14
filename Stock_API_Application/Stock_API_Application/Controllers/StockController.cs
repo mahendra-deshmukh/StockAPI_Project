@@ -22,7 +22,7 @@ namespace Stock_API_Application.Controllers
             return Ok(list);
         }
 
-        [HttpGet("{stockId}")]
+        [HttpGet("id/{stockId}")]
         public IActionResult findById(long stockId)
         {
             Stock stock = this._stockRepository.findById(stockId);
@@ -30,6 +30,16 @@ namespace Stock_API_Application.Controllers
                 return Ok(stock);
             else
                 return BadRequest();
+        }
+
+        [HttpGet("pattern/{pattern}")]
+        public IActionResult findByInitialPattern(String pattern)
+        {
+            List<Stock> list = this._stockRepository.findByInitialPattern(pattern);
+            if (list == null || list.Count() == 0)
+                return NotFound();
+            else 
+                return Ok(list);
         }
     }
 }
