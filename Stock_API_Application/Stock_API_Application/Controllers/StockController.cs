@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Stock_API_Application.Model;
 using Stock_API_Application.Repository;
 
@@ -18,27 +19,28 @@ namespace Stock_API_Application.Controllers
         [HttpGet("get-all")]
         public IActionResult GetAllStocks() {
             List<Stock> list = this._stockRepository.GetAll();
-            return Ok(list);
-        }
-
-        [HttpGet("id/{stockId}")]
-        public IActionResult FindById(long stockId)
-        {
-            Stock stock = this._stockRepository.FindById(stockId);
-            if(stock!=null)
-                return Ok(stock);
+            if(list == null || list.Count == 0) 
+                return NotFound("Stock not found.");
             else
-                return BadRequest();
+                return Ok(list);
         }
 
-        [HttpGet("name/{stockName}")]
-        public IActionResult FindByName(string stockName)
+        [HttpGet("{parameter}")]
+        public IActionResult FindByParameter(String parameter)
         {
-            Stock stock = this._stockRepository.FindByName(stockName);
-            if(stock!=null)
+            Stock stock = null;
+            if (string.IsNullOrEmpty(parameter))
+                return BadRequest("There should be some value for the parameter.");
+            if (long.TryParse(parameter, out long number))
+            {
+                stock = this._stockRepository.FindById(number);
+            }
+            else
+                stock = this._stockRepository.FindByName(parameter);
+            if (stock == null)
+                return NotFound("Stock not found.");
+            else
                 return Ok(stock);
-            else 
-                return BadRequest();
         }
 
         [HttpGet("pattern/{pattern}")]
@@ -46,7 +48,7 @@ namespace Stock_API_Application.Controllers
         {
             List<Stock> list = this._stockRepository.FindByInitialPattern(pattern);
             if (list == null || list.Count() == 0)
-                return NotFound();
+                return NotFound("Stock not found.");
             else 
                 return Ok(list);
         }

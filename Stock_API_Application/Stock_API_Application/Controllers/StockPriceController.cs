@@ -18,11 +18,21 @@ namespace Stock_API_Application.Controllers
         [HttpGet("get-prices/{stockId}")]
         public IActionResult FindPricesById(long stockId)
         {
-            double[] prices = this._stockPriceRepository.FindPricesById(stockId);
-            if(prices == null || prices.Length == 0)
-                return NotFound();
+            dynamic result = this._stockPriceRepository.FindPricesById(stockId);
+            if(result == null || result.stockName == null)
+                return NotFound("Stock does not exist.");
             else 
-                return Ok(prices);
+                return Ok(result);
+        }
+
+        [HttpGet("get-prices")]
+        public IActionResult FindPricesByIdAndDate([FromQuery(Name = "id")]long stockId,[FromQuery] DateOnly date) 
+        {
+            List<dynamic> result = this._stockPriceRepository.FindPricesByIdAndDate(stockId, date);
+            if (result.Count == 0) 
+                return NotFound("No such record for the given date.");
+            else 
+                return Ok(result);
         }
     }
 }

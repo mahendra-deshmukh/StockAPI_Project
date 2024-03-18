@@ -2,6 +2,7 @@
 {
     public interface IStockPriceRepository
     {
-        double[] FindPricesById(long stockId);
+        dynamic FindPricesById(long stockId);
+        List<dynamic> FindPricesByIdAndDate(long stockId, DateOnly date);
     }
 }
